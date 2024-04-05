@@ -198,7 +198,8 @@ paths:
   /aplapi/taxonomy_term/library_location:
     get:
       summary: Get library locations
-      description: Retrieve library locations based on filtering criteria.
+      description: Retrieve library locations based on filtering criteria. By default, only the `id` and `name` are returned.
+        Use the `fields` query parameter to request additional fields.
       operationId: getLibraryLocations
       parameters:
         - in: query
@@ -211,23 +212,14 @@ paths:
           name: page[limit]
           schema:
             type: integer
-            default: 10
-          description: Limit the number of results. Defaults to 10.
+            default: 30
+          description: Limit the number of results. Defaults to 30.
         - in: query
-          name: filter[field_district][value]
-          schema:
-            type: integer
-          description: Filter library locations by district.
-        - in: query
-          name: filter[field_do_not_index][value]
-          schema:
-            type: boolean
-          description: Filter library locations by do not index flag.
-        - in: query
-          name: filter[field_location_code][value]
+          name: fields
           schema:
             type: string
-          description: Filter library locations by location code.
+          description: Comma-separated list of additional fields to include in the response (e.g.,
+            `field_district,field_street_address`).
       responses:
         "200":
           description: A list of library locations matching the query parameters.
@@ -311,7 +303,51 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/LibraryPrioritiesTaxonomyTerm"
-
+  /aplapi/library_events_a:
+    get:
+      summary: Get library reflections
+      operationId: getLibraryReflections
+      description: Retrieve reflections including details such as date, time, type, and categories.
+      parameters:
+        - name: date
+          in: query
+          description: Filter reflections by start date. Format as 'YYYY-MM-DD'.
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          description: Filter reflections by end date. Format as 'YYYY-MM-DD'.
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: page[limit]
+          in: query
+          description: Limit the number of results per page.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 2000
+            minimum: 1
+      responses:
+        "200":
+          description: Successfully retrieved list of reflections
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reflections:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Reflection"
+        "400":
+          description: Bad request (invalid parameters)
+        "500":
+          description: Server error
 components:
   schemas:
     Alert:
@@ -617,3 +653,54 @@ components:
         - id
         - type
         - attributes
+    Reflection:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the reflection.
+        date:
+          type: string
+          format: date-time
+          description: The date and time of the reflection.
+        type:
+          type: string
+          description: The type of reflection.
+        title:
+          type: string
+          description: The title of the reflection.
+        description:
+          type: string
+          description: Detailed description of the reflection.
+        categoryIds:
+          type: array
+          items:
+            type: integer
+          description: Array of category IDs associated with the reflection.
+        targetAudience:
+          type: string
+          description: Target audience for the reflection.
+        attendedCount:
+          type: integer
+          description: Number of attendees.
+        locationId:
+          type: integer
+          description: Location ID where the reflection took place.
+        remoteLocationId:
+          type: integer
+          description: ID for a remote location, if applicable.
+        author:
+          type: string
+          description: The author of the reflection.
+        olderAdults:
+          type: boolean
+          description: Indicates if the reflection is tailored towards older adults.
+        multilanguage:
+          type: boolean
+          description: Indicates if the reflection supports multiple languages.
+        accessible:
+          type: boolean
+          description: Indicates if the reflection is accessible.
+        communityServicesOutreach:
+          type: boolean
+          description: Indicates if the reflection is part of community services outreach.
