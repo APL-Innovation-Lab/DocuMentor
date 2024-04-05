@@ -116,7 +116,7 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/AttendanceStats"
-  /aplapi/node/event:
+  /aplapi/event:
     get:
       summary: Get events
       description: Retrieve events based on filtering criteria.
