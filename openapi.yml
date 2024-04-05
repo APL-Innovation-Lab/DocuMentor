@@ -1,0 +1,619 @@
+openapi: 3.0.1
+info:
+  title: Austin Public Library API
+  description: API endpoints to interact with various content types in the Austin Public Library's Drupal site.
+  version: 1.0.0
+servers:
+  - url: https://library.austintexas.gov
+paths:
+  /aplapi/node/alert:
+    get:
+      summary: Get alerts
+      description: Retrieve alerts based on filtering criteria such as the latest, currently displaying, or upcoming alerts.
+      operationId: getAlerts
+      parameters:
+        - in: query
+          name: sort
+          schema:
+            type: string
+            default: -changed
+          description: Sorting criteria. Defaults to sorting by most recently changed.
+        - in: query
+          name: page[limit]
+          schema:
+            type: integer
+            default: 10
+          description: Limit the number of results. Defaults to 10.
+        - in: query
+          name: filter[field_slr_time_start][condition][path]
+          schema:
+            type: string
+          description: Explicit path for the field to filter by start time.
+        - in: query
+          name: filter[field_slr_time_start][condition][operator]
+          schema:
+            type: string
+          description: Operator to use for comparison. Supports standard operators like "=", ">", "<", and special operators like
+            "BETWEEN".
+        - in: query
+          name: filter[field_slr_time_start][condition][value]
+          schema:
+            type: array
+            items:
+              type: string
+              format: date-time
+          description: For operators like "BETWEEN", an array of start and end times formatted as timestamps. For other operators,
+            use a single timestamp.
+        - in: query
+          name: filter[field_slr_time_end][condition][path]
+          schema:
+            type: string
+          description: Explicit path for the field to filter by end time (if needed).
+        - in: query
+          name: filter[field_slr_time_end][condition][operator]
+          schema:
+            type: string
+          description: Operator for end time comparison (similar to start time).
+        - in: query
+          name: filter[field_slr_time_end][condition][value]
+          schema:
+            type: string
+            format: date-time
+          description: The end time value for comparison, as a timestamp.
+      responses:
+        "200":
+          description: A list of alerts matching the query parameters.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Alert"
+  /aplapi/node/reflection:
+    get:
+      summary: Get attendance stats
+      description: Retrieve attendance stats based on filtering criteria.
+      operationId: getAttendanceStats
+      parameters:
+        - in: query
+          name: sort
+          schema:
+            type: string
+            default: -changed
+          description: Sorting criteria. Defaults to sorting by most recently changed.
+        - in: query
+          name: page[limit]
+          schema:
+            type: integer
+            default: 10
+          description: Limit the number of results. Defaults to 10.
+        - in: query
+          name: filter[field_reflection_date_and_time][condition][path]
+          schema:
+            type: string
+          description: Explicit path for the field to filter by date and time.
+        - in: query
+          name: filter[field_reflection_date_and_time][condition][operator]
+          schema:
+            type: string
+          description: Operator to use for comparison. Supports standard operators like "=", ">", "<", and special operators like
+            "BETWEEN".
+        - in: query
+          name: filter[field_reflection_date_and_time][condition][value]
+          schema:
+            type: array
+            items:
+              type: string
+              format: date-time
+          description: For operators like "BETWEEN", an array of start and end times formatted as timestamps. For other operators,
+            use a single timestamp.
+      responses:
+        "200":
+          description: A list of attendance stats matching the query parameters.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AttendanceStats"
+  /aplapi/node/event:
+    get:
+      summary: Get events
+      description: Retrieve events based on filtering criteria.
+      operationId: getEvents
+      parameters:
+        - in: query
+          name: sort
+          schema:
+            type: string
+            default: -changed
+          description: Sorting criteria. Defaults to sorting by most recently changed.
+        - in: query
+          name: page[limit]
+          schema:
+            type: integer
+            default: 10
+          description: Limit the number of results. Defaults to 10.
+        - in: query
+          name: filter[field_event_date][condition][path]
+          schema:
+            type: string
+          description: Explicit path for the field to filter by event date and time.
+        - in: query
+          name: filter[field_event_date][condition][operator]
+          schema:
+            type: string
+          description: Operator to use for comparison. Supports standard operators like "=", ">", "<", and special operators like
+            "BETWEEN".
+        - in: query
+          name: filter[field_event_date][condition][value]
+          schema:
+            type: array
+            items:
+              type: string
+              format: date-time
+          description: For operators like "BETWEEN", an array of start and end times formatted as timestamps. For other operators,
+            use a single timestamp.
+      responses:
+        "200":
+          description: A list of events matching the query parameters.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Event"
+  /aplapi/node/accordion:
+    get:
+      summary: Get accordions
+      description: Retrieve accordions based on filtering criteria.
+      operationId: getAccordions
+      parameters:
+        - in: query
+          name: sort
+          schema:
+            type: string
+            default: -changed
+          description: Sorting criteria. Defaults to sorting by most recently changed.
+        - in: query
+          name: page[limit]
+          schema:
+            type: integer
+            default: 10
+          description: Limit the number of results. Defaults to 10.
+        - in: query
+          name: filter[field_anchor][value]
+          schema:
+            type: string
+          description: Filter accordions by anchor value.
+      responses:
+        "200":
+          description: A list of accordions matching the query parameters.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Accordion"
+  /aplapi/taxonomy_term/library_location:
+    get:
+      summary: Get library locations
+      description: Retrieve library locations based on filtering criteria.
+      operationId: getLibraryLocations
+      parameters:
+        - in: query
+          name: sort
+          schema:
+            type: string
+            default: -changed
+          description: Sorting criteria. Defaults to sorting by most recently changed.
+        - in: query
+          name: page[limit]
+          schema:
+            type: integer
+            default: 10
+          description: Limit the number of results. Defaults to 10.
+        - in: query
+          name: filter[field_district][value]
+          schema:
+            type: integer
+          description: Filter library locations by district.
+        - in: query
+          name: filter[field_do_not_index][value]
+          schema:
+            type: boolean
+          description: Filter library locations by do not index flag.
+        - in: query
+          name: filter[field_location_code][value]
+          schema:
+            type: string
+          description: Filter library locations by location code.
+      responses:
+        "200":
+          description: A list of library locations matching the query parameters.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LibraryLocation"
+  /aplapi/taxonomy_term/event_tags:
+    get:
+      summary: Get event tags taxonomy terms
+      description: Retrieve taxonomy terms from the event tags vocabulary based on filtering criteria.
+      operationId: getEventTags
+      parameters:
+        - in: query
+          name: sort
+          schema:
+            type: string
+            default: -changed
+          description: Sorting criteria. Defaults to sorting by most recently changed.
+        - in: query
+          name: page[limit]
+          schema:
+            type: integer
+            default: 10
+          description: Limit the number of results. Defaults to 10.
+        - in: query
+          name: filter[field_cat_hierarchy][condition][path]
+          schema:
+            type: string
+          description: Explicit path for the field to filter by category hierarchy.
+        - in: query
+          name: filter[field_cat_hierarchy][condition][operator]
+          schema:
+            type: string
+          description: Operator to use for comparison in category hierarchy.
+        - in: query
+          name: filter[field_cat_hierarchy][condition][value]
+          schema:
+            type: string
+          description: Value for comparison in category hierarchy.
+        - in: query
+          name: filter[field_is_an_event_category][condition][value]
+          schema:
+            type: boolean
+          description: Filter by whether it's an event category.
+      responses:
+        "200":
+          description: A list of event tags taxonomy terms matching the query parameters.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EventTagsTaxonomyTerm"
+  /aplapi/taxonomy_term/library_priorities:
+    get:
+      summary: Get library priorities taxonomy terms
+      description: Retrieve taxonomy terms from the library priorities vocabulary based on filtering criteria.
+      operationId: getLibraryPriorities
+      parameters:
+        - in: query
+          name: sort
+          schema:
+            type: string
+            default: -changed
+          description: Sorting criteria. Defaults to sorting by most recently changed.
+        - in: query
+          name: page[limit]
+          schema:
+            type: integer
+            default: 10
+          description: Limit the number of results. Defaults to 10.
+      responses:
+        "200":
+          description: A list of library priorities taxonomy terms matching the query parameters.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LibraryPrioritiesTaxonomyTerm"
+
+components:
+  schemas:
+    Alert:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the alert.
+        type:
+          type: string
+          description: Type of the content, which is "alert".
+        attributes:
+          type: object
+          properties:
+            title:
+              type: string
+              description: Title of the alert.
+            field_slr_time_start:
+              type: string
+              format: date-time
+              description: Start time for the alert's validity.
+            field_slr_time_end:
+              type: string
+              format: date-time
+              description: End time for the alert's validity.
+      required:
+        - id
+        - type
+        - attributes
+    AttendanceStats:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the attendance stats.
+        type:
+          type: string
+          description: Type of the content, which is "reflection".
+        attributes:
+          type: object
+          properties:
+            field_node_id:
+              type: string
+              description: Reference to the associated event node.
+            field_reflection_date_and_time:
+              type: string
+              format: date-time
+              description: Date and time of the reflection.
+            field_how_many_attended_:
+              type: integer
+              description: Number of attendees.
+            field_branch_location:
+              type: string
+              description: Branch or location of the event.
+            field_target_audience:
+              type: string
+              description: Target audience for the event.
+            field_reflection_description:
+              type: string
+              description: Description of the reflection.
+            field_anecdote:
+              type: string
+              description: Anecdote about the impact of the program on a customer.
+      required:
+        - id
+        - type
+        - attributes
+    Event:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the event.
+        type:
+          type: string
+          description: Type of the content, which is "event".
+        attributes:
+          type: object
+          properties:
+            title:
+              type: string
+              description: Title of the event.
+            body:
+              type: string
+              description: Event description.
+            field_event_date:
+              type: string
+              format: date-time
+              description: Date and time of the event.
+            field_event_summary:
+              type: string
+              description: Summary of the event.
+            field_event_loc:
+              type: string
+              description: Location of the event.
+            field_cat_ia:
+              type: array
+              items:
+                type: string
+              description: Intended audience for the event.
+            field_event_category_tags_:
+              type: array
+              items:
+                type: string
+              description: Event category tags.
+            field_subtitle:
+              type: string
+              description: Subtitle of the event.
+            field_movie_title:
+              type: string
+              description: Movie title, if applicable.
+            field_movie_year:
+              type: integer
+              description: Movie release year, if applicable.
+            field_movie_rating:
+              type: string
+              description: Movie rating, if applicable.
+            field_movie_summary:
+              type: string
+              description: Movie summary, if applicable.
+            field_link_for_registration:
+              type: string
+              description: Link for event registration.
+            field_slr_time_start:
+              type: string
+              format: date-time
+              description: Start time of the event.
+            field_slr_time_end:
+              type: string
+              format: date-time
+              description: End time of the event.
+      required:
+        - id
+        - type
+        - attributes
+    Accordion:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the accordion.
+        type:
+          type: string
+          description: Type of the content, which is "accordion".
+        attributes:
+          type: object
+          properties:
+            title:
+              type: string
+              description: Title of the accordion.
+            field_accordion_text:
+              type: string
+              description: Text content of the accordion.
+            field_accordions:
+              type: array
+              items:
+                type: string
+              description: References to other accordion nodes.
+            field_anchor:
+              type: string
+              description: Anchor fragment identifier for the accordion.
+            field_class:
+              type: string
+              description: CSS class for the accordion.
+            field_image_gallery:
+              type: array
+              items:
+                type: string
+                format: binary
+              description: Image gallery associated with the accordion.
+            field_search_result_page:
+              type: string
+              description: Reference to the search result page node.
+            field_sub_accordions:
+              type: array
+              items:
+                type: string
+              description: References to sub-accordion nodes.
+      required:
+        - id
+        - type
+        - attributes
+    LibraryLocation:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the library location.
+        type:
+          type: string
+          description: Type of the content, which is "library_location".
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Name of the library location.
+            field_accordions:
+              type: array
+              items:
+                type: string
+              description: References to associated accordion nodes.
+            field_bibliocommons_list_url:
+              type: string
+              description: Bibliocommons list URL for the library location.
+            field_body_bottom_:
+              type: string
+              description: Bottom section of the body content.
+            field_body_top_:
+              type: string
+              description: Top section of the body content.
+            field_capacities:
+              type: string
+              description: Capacities of the library location.
+            field_district:
+              type: integer
+              description: District of the library location.
+            field_do_not_index:
+              type: boolean
+              description: Flag indicating whether to exclude from indexing.
+            field_latitude_longitude:
+              type: string
+              description: Latitude and longitude of the library location.
+            field_location_code:
+              type: string
+              description: Location code of the library.
+            field_location_main_image:
+              type: string
+              format: binary
+              description: Main image of the library location.
+            field_notes:
+              type: string
+              description: Additional notes about the library location.
+            field_open_hours_html:
+              type: string
+              description: Open hours of the library location in HTML format.
+            field_phone_num:
+              type: string
+              description: Phone number of the library location.
+            field_special_hours_note:
+              type: string
+              description: Special hours note for the library location.
+            field_special_weight:
+              type: integer
+              description: Special weight assigned to the library location.
+            field_staff_recommendations:
+              type: string
+              description: Staff recommendations for the library location.
+            field_street_address:
+              type: string
+              description: Street address of the library location.
+            field_zipcode:
+              type: string
+              description: Zipcode of the library location.
+      required:
+        - id
+        - type
+        - attributes
+    EventTagsTaxonomyTerm:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the taxonomy term.
+        type:
+          type: string
+          description: Type of the content, which is "taxonomy_term".
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Name of the taxonomy term.
+            description:
+              type: string
+              description: Description of the taxonomy term.
+            field_cat_hierarchy:
+              type: string
+              description: Hierarchy position of the taxonomy term.
+            field_is_an_event_category:
+              type: boolean
+              description: Whether the term is an event category.
+      required:
+        - id
+        - type
+        - attributes
+    LibraryPrioritiesTaxonomyTerm:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the taxonomy term.
+        type:
+          type: string
+          description: Type of the content, which is "taxonomy_term".
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Name of the taxonomy term.
+      required:
+        - id
+        - type
+        - attributes
