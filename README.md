@@ -16,7 +16,7 @@ DocuMentor is a specialized GPT tailored to produce Markdown documentation and m
 
 ### Direct Access
 
-You can access DocuMentor directly if you have an eligible subscription. Enhance your documentation capabilities today with tools designed for clarity, efficiency, and privacy.
+You can access DocuMentor directly if you have an eligible subscription. Enhance your documentation capabilities today with tools designed for clarity, efficiency, and privacy. [Direct link to DocuMentor](https://chat.openai.com/g/g-IfbzJyTnO-documentor).
 
 ### Exploring Other Resources
 
