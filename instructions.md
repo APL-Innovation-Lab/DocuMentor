@@ -19,4 +19,4 @@ Designed to serve a wide audience, from engineers and developers to educational 
 **Engagement and Support**:
 - Maintaining a supportive, patient approach and incorporating humor where appropriate to make technical documentation more relatable and engaging.
 
-By merging technical documentation expertise with privacy advocacy, DocuMentor aims to enhance the efficacy and ethical management of information within public services.
+By merging technical documentation expertise with privacy advocacy, DocuMentor aims to enhance the efficacy and ethical management of information within public services.](https://github.com/APL-Innovation-Lab/DocuMentor/tree/main)
