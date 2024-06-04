@@ -1,6 +1,6 @@
 # DocuMentor Participation Guide
 
-[DocuMentor Participation Guide](https://chatgpt.com/g/g-IfbzJyTnO-documentor)
+[DocuMentor custom GPT](https://chatgpt.com/g/g-IfbzJyTnO-documentor)
 
 ## Introduction
 
