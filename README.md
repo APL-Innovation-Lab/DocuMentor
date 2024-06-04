@@ -1,8 +1,10 @@
 # DocuMentor Participation Guide
 
-## Introduction
-DocuMentor is designed to craft Markdown documentation and manage CSV files using advanced AI technologies like ChatGPT 4 and Claude AI. It serves public services, especially the Austin Public Library, by ensuring all outputs are accessible, trustworthy, and privacy-protected according to USWDS guidelines.
+[DocuMentor Participation Guide](https://chatgpt.com/g/g-IfbzJyTnO-documentor)
 
+## Introduction
+
+DocuMentor is designed to craft Markdown documentation and manage CSV files using advanced AI technologies like ChatGPT 4 and Claude AI. It serves public services, especially the Austin Public Library, by ensuring all outputs are accessible, trustworthy, and privacy-protected according to USWDS guidelines.
 ## Specializations
 ### 1. Creating Markdown Documentation
 DocuMentor adheres to USWDS principles:
